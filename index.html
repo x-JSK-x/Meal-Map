@@ -26,6 +26,19 @@
       --radius: 16px;
     }
 
+    body.dark-mode {
+      --bg: #0f1115;
+      --surface: #171a21;
+      --border: #262b36;
+      --text: #eef1f6;
+      --muted: #a6afbd;
+      --accent-light: rgba(200, 96, 42, 0.18);
+      --tab-active: #eef1f6;
+      --tab-bg: #202534;
+      --shadow: 0 2px 14px rgba(0,0,0,0.35);
+      --cheat-light: rgba(212, 160, 23, 0.18);
+    }
+
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--bg);
@@ -61,6 +74,72 @@
 
     .app-title span {
       color: var(--accent);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .fav-filter-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+      transition: transform 0.15s, background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+
+    .fav-filter-btn:active { transform: scale(0.98); }
+
+    .fav-filter-btn.active {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .theme-btn.active {
+      border-color: var(--border);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .search-input {
+      width: 270px;
+      max-width: 40vw;
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.86rem;
+      outline: none;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input::placeholder { color: var(--muted); }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(200, 96, 42, 0.14);
+    }
+
+    body.cheat-mode .search-input:focus {
+      border-color: var(--cheat);
+      box-shadow: 0 0 0 4px rgba(212, 160, 23, 0.16);
+    }
+
+    .search-input.in-section {
+      margin-left: auto;
+      max-width: 44vw;
     }
 
     /* CHEAT DAY TOGGLE */
@@ -125,7 +204,8 @@
     }
 
     .cheat-badge {
-      display: none;
+      display: none !important;
+      visibility: hidden;
       font-size: 0.7rem;
       font-weight: 600;
       background: var(--cheat);
@@ -135,7 +215,7 @@
       letter-spacing: 0.05em;
     }
 
-    .cheat-badge.visible { display: inline-block; }
+    .cheat-badge.visible { display: none !important; visibility: hidden; }
 
     /* TABS */
     .tabs {
@@ -185,8 +265,12 @@
       background: var(--cheat-light);
     }
 
+    body.dark-mode.cheat-mode header {
+      background: var(--surface);
+    }
+
     body.cheat-mode {
-      background: #faf7ef;
+      background: var(--bg);
     }
 
     /* MAIN CONTENT */
@@ -240,12 +324,19 @@
       border-radius: var(--radius);
       padding: 16px 18px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
       box-shadow: var(--shadow);
       transition: transform 0.15s, box-shadow 0.15s;
       animation: slideIn 0.25s ease both;
+    }
+
+    .meal-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
 
     @keyframes slideIn {
@@ -258,7 +349,7 @@
     }
 
     body.cheat-mode .meal-card {
-      border-color: #ede5c8;
+      border-color: #ffffff;
     }
 
     .meal-info {
@@ -266,6 +357,53 @@
       align-items: center;
       gap: 14px;
       flex: 1;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .meal-notes {
+      display: none;
+      border-top: 1px dashed var(--border);
+      padding-top: 10px;
+    }
+
+    .meal-card.expanded .meal-notes { display: block; }
+
+    .notes-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .notes-area {
+      width: 100%;
+      min-height: 64px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.02);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    body.dark-mode .notes-area {
+      background: rgba(255,255,255,0.04);
+    }
+
+    .notes-area:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(200, 96, 42, 0.14);
+    }
+
+    body.cheat-mode .notes-area:focus {
+      border-color: var(--cheat);
+      box-shadow: 0 0 0 4px rgba(212, 160, 23, 0.16);
     }
 
     .meal-icon {
@@ -341,14 +479,18 @@
 <header>
   <div class="header-top">
     <h1 class="app-title">Meal<span>Map</span></h1>
-    <div class="cheat-toggle">
-      <span class="cheat-label" id="cheatLabel">Cheat Day</span>
-      <label class="toggle-switch" aria-label="Cheat Day umschalten">
-        <input type="checkbox" id="cheatToggle" />
-        <span class="toggle-track"></span>
-        <span class="toggle-thumb"></span>
-      </label>
-      <span class="cheat-badge" id="cheatBadge">🎉 ON</span>
+    <div class="header-actions">
+      <button class="fav-filter-btn" id="favFilterBtn" type="button" aria-pressed="false">⭐ Nur Favoriten: Aus</button>
+      <button class="fav-filter-btn theme-btn" id="themeBtn" type="button" aria-pressed="false">🌙 Darkmode: Aus</button>
+      <div class="cheat-toggle">
+        <span class="cheat-label" id="cheatLabel">Cheat Day</span>
+        <label class="toggle-switch" aria-label="Cheat Day umschalten">
+          <input type="checkbox" id="cheatToggle" />
+          <span class="toggle-track"></span>
+          <span class="toggle-thumb"></span>
+        </label>
+        <span class="cheat-badge" id="cheatBadge"></span>
+      </div>
     </div>
   </div>
   <nav class="tabs" role="tablist">
@@ -374,6 +516,7 @@
       <span class="section-emoji">🌅</span>
       <h2 class="section-title">Frühstück</h2>
       <span class="mode-tag" id="mode-fruehstueck">Normal</span>
+      <input class="search-input in-section" id="searchInput" type="search" inputmode="search" placeholder="Suche (ID/Name) im Tab…" aria-label="Suche in aktiver Kategorie" />
     </div>
     <div class="meal-list" id="list-fruehstueck"></div>
   </div>
@@ -470,6 +613,10 @@
   // ──────────────────────────────────────────────
   let isCheatDay = false;
   const favorites = new Set();
+  let showOnlyFavs = false;
+  let isDarkMode = false;
+  let searchQuery = '';
+  let activeCategory = 'fruehstueck';
 
   // ──────────────────────────────────────────────
   //  RENDER
@@ -484,12 +631,18 @@
   function renderCategory(cat) {
     const mode = isCheatDay ? 'cheat' : 'normal';
     const list = document.getElementById('list-' + cat);
-    const items = meals[cat][mode];
+    const allItems = meals[cat][mode];
+    const favFiltered = showOnlyFavs ? allItems.filter(m => favorites.has(m.id)) : allItems;
+    const q = searchQuery.trim().toLowerCase();
+    const items = q
+      ? favFiltered.filter(m => (m.id && m.id.toLowerCase().includes(q)) || (m.name && m.name.toLowerCase().includes(q)))
+      : favFiltered;
 
     list.innerHTML = '';
 
     if (!items || items.length === 0) {
-      list.innerHTML = `<div class="empty"><div class="empty-icon">🍽️</div><p>Keine Gerichte vorhanden.</p></div>`;
+      const msg = showOnlyFavs ? 'Noch keine Favoriten markiert.' : 'Keine Gerichte vorhanden.';
+      list.innerHTML = `<div class="empty"><div class="empty-icon">🍽️</div><p>${msg}</p></div>`;
       return;
     }
 
@@ -498,18 +651,45 @@
       const card = document.createElement('div');
       card.className = 'meal-card';
       card.style.animationDelay = (i * 0.05) + 's';
+      const noteKey = 'mealmap_note_' + meal.id;
+      let noteText = '';
+      try { noteText = localStorage.getItem(noteKey) || ''; } catch (e) {}
       card.innerHTML = `
-        <div class="meal-info">
-          <span class="meal-icon">${meal.icon}</span>
-          <span class="meal-name">${meal.name}</span>
+        <div class="meal-row">
+          <div class="meal-info" data-action="toggle-notes" data-id="${meal.id}">
+            <span class="meal-icon">${meal.icon}</span>
+            <span class="meal-name">${meal.name}</span>
+          </div>
+          <button class="fav-btn ${isFav ? 'starred' : ''}"
+                  aria-label="${isFav ? 'Favorit entfernen' : 'Als Favorit markieren'}"
+                  data-id="${meal.id}">
+            ${isFav ? '⭐' : '☆'}
+          </button>
         </div>
-        <button class="fav-btn ${isFav ? 'starred' : ''}"
-                aria-label="${isFav ? 'Favorit entfernen' : 'Als Favorit markieren'}"
-                data-id="${meal.id}">
-          ${isFav ? '⭐' : '☆'}
-        </button>
+        <div class="meal-notes" aria-label="Notizen">
+          <div class="notes-label">Notizen</div>
+          <textarea class="notes-area" data-id="${meal.id}" placeholder="Zubereitung / Notizen…"></textarea>
+        </div>
       `;
       list.appendChild(card);
+
+      const area = card.querySelector('.notes-area');
+      if (area) area.value = noteText;
+
+      const info = card.querySelector('.meal-info');
+      if (info) {
+        info.addEventListener('click', () => {
+          card.classList.toggle('expanded');
+          if (card.classList.contains('expanded') && area) area.focus();
+        });
+      }
+
+      if (area) {
+        area.addEventListener('click', (e) => e.stopPropagation());
+        area.addEventListener('input', () => {
+          try { localStorage.setItem(noteKey, area.value || ''); } catch (e) {}
+        });
+      }
     });
 
     // Fav-Button Events
@@ -541,34 +721,89 @@
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
+  function moveSearchToActiveHeader() {
+    const activeHeader = document.querySelector('.tab-content.active .section-header');
+    if (!activeHeader) return;
+    if (searchInput && searchInput.parentElement !== activeHeader) {
+      activeHeader.appendChild(searchInput);
+    }
+  }
+
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       tabBtns.forEach(b => b.classList.remove('active'));
       tabContents.forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      activeCategory = btn.dataset.tab;
+      document.getElementById('tab-' + activeCategory).classList.add('active');
+      moveSearchToActiveHeader();
+      renderCategory(activeCategory);
     });
   });
 
   // ──────────────────────────────────────────────
   //  CHEAT DAY TOGGLE
   // ──────────────────────────────────────────────
+  const favFilterBtn = document.getElementById('favFilterBtn');
+  const themeBtn = document.getElementById('themeBtn');
+  const searchInput = document.getElementById('searchInput');
   const cheatToggle = document.getElementById('cheatToggle');
   const cheatLabel = document.getElementById('cheatLabel');
   const cheatBadge = document.getElementById('cheatBadge');
+
+  function applyThemeUI() {
+    document.body.classList.toggle('dark-mode', isDarkMode);
+    themeBtn.classList.toggle('active', isDarkMode);
+    themeBtn.setAttribute('aria-pressed', String(isDarkMode));
+    themeBtn.textContent = isDarkMode ? '☀️ Darkmode: An' : '🌙 Darkmode: Aus';
+  }
+
+  // Init Theme (localStorage → sonst System)
+  try {
+    const saved = localStorage.getItem('mealmap_theme');
+    if (saved === 'dark') isDarkMode = true;
+    else if (saved === 'light') isDarkMode = false;
+    else isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  } catch (e) {}
+  applyThemeUI();
+
+  favFilterBtn.addEventListener('click', () => {
+    showOnlyFavs = !showOnlyFavs;
+    favFilterBtn.classList.toggle('active', showOnlyFavs);
+    favFilterBtn.setAttribute('aria-pressed', String(showOnlyFavs));
+    favFilterBtn.textContent = showOnlyFavs ? '⭐ Nur Favoriten: An' : '⭐ Nur Favoriten: Aus';
+    renderCategory(activeCategory);
+  });
+
+  themeBtn.addEventListener('click', () => {
+    isDarkMode = !isDarkMode;
+    applyThemeUI();
+    try {
+      localStorage.setItem('mealmap_theme', isDarkMode ? 'dark' : 'light');
+    } catch (e) {}
+  });
 
   cheatToggle.addEventListener('change', () => {
     isCheatDay = cheatToggle.checked;
     document.body.classList.toggle('cheat-mode', isCheatDay);
     cheatLabel.classList.toggle('active', isCheatDay);
     cheatBadge.classList.toggle('visible', isCheatDay);
-    renderAll();
+    renderCategory(activeCategory);
+  });
+
+  searchInput.addEventListener('input', () => {
+    searchQuery = searchInput.value || '';
+    renderCategory(activeCategory);
   });
 
   // ──────────────────────────────────────────────
   //  INIT
   // ──────────────────────────────────────────────
   renderAll();
+  const initialActiveBtn = document.querySelector('.tab-btn.active');
+  if (initialActiveBtn && initialActiveBtn.dataset && initialActiveBtn.dataset.tab) {
+    activeCategory = initialActiveBtn.dataset.tab;
+  }
 </script>
 </body>
 </html>
